@@ -1,0 +1,6 @@
+@Transaction.Msvc_HostAddress = http://localhost:5065
+
+GET {{Transaction.Msvc_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
