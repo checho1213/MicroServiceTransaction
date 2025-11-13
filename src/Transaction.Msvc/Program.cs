@@ -1,12 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddDbContext<TransactionDbContext>(options =>
-    options.UseNpgsql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        x => x.MigrationsAssembly(typeof(TransactionDbContext).Assembly.FullName)
-    )
-);
-
+builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.Load("Transaction.Aplication")));
 
@@ -20,9 +13,6 @@ builder.Services.AddSingleton<ProducerConfig>(sp =>
 });
 
 builder.Services.Configure<KafkaSettings>(builder.Configuration.GetSection("Kafka"));
-
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddScoped<IEventProducer, KafkaProducer>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
