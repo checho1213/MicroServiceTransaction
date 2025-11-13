@@ -9,7 +9,7 @@ public class TransactionDbContextFactory : IDesignTimeDbContextFactory<Transacti
     public TransactionDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<TransactionDbContext>();        
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=transaction_db;Username=postgres;Password=sergio123");
+        optionsBuilder.UseNpgsql("Host=postgres;Port=5432;Database=transactions_db;Username=postgres;Password=postgres");
 
         return new TransactionDbContext(optionsBuilder.Options);
     }

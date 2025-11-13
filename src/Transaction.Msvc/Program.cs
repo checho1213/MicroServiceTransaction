@@ -12,7 +12,11 @@ using Transaction.Msvc.Middleware;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<TransactionDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly(typeof(TransactionDbContext).Assembly.FullName)
+    )
+);
 
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.Load("Transaction.Aplication")));
@@ -40,6 +44,12 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<TransactionDbContext>();
+    db.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {
