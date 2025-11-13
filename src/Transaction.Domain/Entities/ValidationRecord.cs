@@ -1,7 +1,4 @@
-﻿using Transaction.Domain.Common;
-
-namespace Transaction.Domain.Entities;
-
+﻿namespace Transaction.Domain.Entities;
 public class ValidationRecord
 {
     public Guid Id { get; private set; }

@@ -1,9 +1,4 @@
-using Confluent.Kafka;
-using System.Text.Json;
-using Transaction.Aplication.Interfaces;
-
 namespace Transaction.Infrastructure.Kafka;
-
 public class KafkaProducer : IEventProducer
 {
     private readonly IProducer<Null, string> _producer;

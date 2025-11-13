@@ -1,14 +1,3 @@
-using Confluent.Kafka;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection;
-using Transaction.Aplication.Common.Kakfa;
-using Transaction.Aplication.Interfaces;
-using Transaction.Domain.Interfaces;
-using Transaction.Infrastructure.Kafka;
-using Transaction.Infrastructure.Repositories;
-using Transaction.Infrastructure.TransactionsDbContext;
-using Transaction.Msvc.Middleware;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<TransactionDbContext>(options =>

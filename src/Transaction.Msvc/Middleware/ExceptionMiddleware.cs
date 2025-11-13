@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
-using Transaction.Aplication.Common;
-
-namespace Transaction.Msvc.Middleware;
+﻿namespace Transaction.Msvc.Middleware;
 public class ExceptionMiddleware
 {
     private readonly RequestDelegate _next;

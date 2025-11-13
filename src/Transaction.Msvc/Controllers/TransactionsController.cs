@@ -1,10 +1,3 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Transaction.Aplication.Commands;
-using Transaction.Aplication.Common;
-using Transaction.Aplication.DTOs;
-
-
 namespace Transaction.Msvc.Controllers;
 
 [ApiController]

@@ -1,9 +1,5 @@
-using System.Threading.Tasks;
-
-namespace Transaction.Aplication.Interfaces
+namespace Transaction.Aplication.Interfaces;
+public interface IEventProducer
 {
-    public interface IEventProducer
-    {
-        Task ProduceAsync<T>(string topic, T @event);
-    }
+    Task ProduceAsync<T>(string topic, T @event);
 }

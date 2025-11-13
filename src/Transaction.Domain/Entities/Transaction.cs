@@ -1,5 +1,3 @@
-using Transaction.Domain.Common;
-
 namespace Transaction.Domain.Entities;
 public class Transaction
 {

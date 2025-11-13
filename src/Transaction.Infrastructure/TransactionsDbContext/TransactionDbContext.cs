@@ -1,8 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Transaction.Domain.Entities;
-
-namespace Transaction.Infrastructure.TransactionsDbContext;
-
+﻿namespace Transaction.Infrastructure.TransactionsDbContext;
 public  class TransactionDbContext : DbContext
 {
     public TransactionDbContext(DbContextOptions<TransactionDbContext> options) : base(options) { }

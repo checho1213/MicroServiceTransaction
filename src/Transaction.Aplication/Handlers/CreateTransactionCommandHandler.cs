@@ -1,14 +1,4 @@
-using MediatR;
-using Microsoft.Extensions.Options;
-using Transaction.Aplication.Commands;
-using Transaction.Aplication.Common.Kakfa;
-using Transaction.Aplication.DTOs;
-using Transaction.Aplication.Events;
-using Transaction.Aplication.Interfaces;
-using Transaction.Domain.Interfaces;
-
 namespace Transaction.Aplication.Handlers;
-
 public class CreateTransactionCommandHandler : IRequestHandler<CreateTransactionCommand, CreateTransactionResultDto>
 {
     private readonly ITransactionRepository _transactionRepository;

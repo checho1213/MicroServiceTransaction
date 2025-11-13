@@ -1,5 +1,4 @@
 ﻿namespace Transaction.Domain.Common;
-
 public enum ETransactionStatus
 {
     PENDING,

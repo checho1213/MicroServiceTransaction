@@ -1,9 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Transaction.Infrastructure.TransactionsDbContext;
-
-namespace Transaction.Infrastructure.Factories;
-
+﻿namespace Transaction.Infrastructure.Factories;
 public class TransactionDbContextFactory : IDesignTimeDbContextFactory<TransactionDbContext>
 {
     public TransactionDbContext CreateDbContext(string[] args)

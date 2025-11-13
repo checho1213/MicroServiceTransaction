@@ -1,9 +1,4 @@
-using Microsoft.EntityFrameworkCore;
-using Transaction.Domain.Interfaces;
-using Transaction.Infrastructure.TransactionsDbContext;
-
 namespace Transaction.Infrastructure.Repositories;
-
 public class TransactionRepository : ITransactionRepository
 {
     private readonly TransactionDbContext _ctx;
