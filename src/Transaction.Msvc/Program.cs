@@ -15,7 +15,7 @@ builder.Services.AddDbContext<TransactionDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(Assembly.Load("Transaction.Application")));
+    cfg.RegisterServicesFromAssembly(Assembly.Load("Transaction.Aplication")));
 
 builder.Services.AddSingleton<ProducerConfig>(sp =>
 {
