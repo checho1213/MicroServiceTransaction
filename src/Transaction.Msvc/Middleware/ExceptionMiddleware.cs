@@ -35,7 +35,7 @@ public class ExceptionMiddleware
 
         var response = ApiResponse<string>.ErrorResponse(exception.Message);
 
-        var result = JsonSerializer.Serialize(response);
+        var result = JsonConvert.SerializeObject(response);
         return context.Response.WriteAsync(result);
     }
 }

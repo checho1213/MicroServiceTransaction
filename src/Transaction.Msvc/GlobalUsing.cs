@@ -2,13 +2,14 @@
 global using MediatR;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.EntityFrameworkCore;
+global using Newtonsoft.Json;
 global using System.ComponentModel.DataAnnotations;
 global using System.Reflection;
-global using System.Text.Json;
 global using Transaction.Aplication.Commands;
 global using Transaction.Aplication.Common;
 global using Transaction.Aplication.Common.Kakfa;
 global using Transaction.Aplication.DTOs;
 global using Transaction.Infrastructure;
 global using Transaction.Infrastructure.TransactionsDbContext;
+global using Transaction.Infrastructure.Workers;
 global using Transaction.Msvc.Middleware;

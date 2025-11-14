@@ -1,6 +1,10 @@
 ﻿namespace Transaction.Infrastructure.Factories;
 public class TransactionDbContextFactory : IDesignTimeDbContextFactory<TransactionDbContext>
 {
+    public TransactionDbContextFactory()
+    {
+        
+    }
     public TransactionDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<TransactionDbContext>();        

@@ -21,8 +21,11 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="10.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.8" />
 		<PackageReference Include="Confluent.Kafka" Version="2.4.0" />
 		<PackageReference Update="System.Runtime" Version="8.0.0" />
+		<PackageReference Include="Polly" Version="8.0.0" />
 	</ItemGroup>
 </Project>

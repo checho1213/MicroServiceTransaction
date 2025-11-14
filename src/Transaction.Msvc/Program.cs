@@ -3,6 +3,7 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(Assembly.Load("Transaction.Aplication")));
 
+builder.Services.Configure<KafkaSettings>(builder.Configuration.GetSection("Kafka"));
 builder.Services.AddSingleton<ProducerConfig>(sp =>
 {
     var config = new ProducerConfig
@@ -11,8 +12,7 @@ builder.Services.AddSingleton<ProducerConfig>(sp =>
     };
     return config;
 });
-
-builder.Services.Configure<KafkaSettings>(builder.Configuration.GetSection("Kafka"));
+builder.Services.AddHostedService<ChangeStatusTransactionWorker>();
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();

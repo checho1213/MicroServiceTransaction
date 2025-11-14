@@ -9,7 +9,7 @@ public class KafkaProducer : IEventProducer
 
     public async Task ProduceAsync<T>(string topic, T @event)
     {
-        var json = JsonSerializer.Serialize(@event);
+        var json = JsonConvert.SerializeObject(@event);
         await _producer.ProduceAsync(topic, new Message<Null, string> { Value = json });
     }
 }

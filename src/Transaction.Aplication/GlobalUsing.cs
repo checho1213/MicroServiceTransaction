@@ -6,3 +6,4 @@ global using Transaction.Aplication.DTOs;
 global using Transaction.Aplication.Events;
 global using Transaction.Aplication.Interfaces;
 global using Transaction.Domain.Interfaces;
+global using Transaction.Domain.Common;
