@@ -1,0 +1,137 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: transactions_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    networks:
+      - testak-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    networks:
+      - testak-network
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    networks:
+      - testak-network
+    healthcheck:
+      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    restart: always
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://kafka:29092,OUTSIDE://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:29092,OUTSIDE://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_CREATE_TOPICS: "transaction.created:1:1,transaction.validated:1:1"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions.sh --bootstrap-server localhost:29092"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+    networks:
+      - testak-network
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
+      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+    depends_on:
+      kafka:
+        condition: service_healthy
+    networks:
+      - testak-network
+
+  transactionapi:
+    build:
+      context: ./MSVC.Transaction
+      dockerfile: src/Transaction.Msvc/Dockerfile
+    container_name: Transaction.Msvc
+    ports:
+      - "5000:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: "Host=postgres;Database=transactions_db;Username=postgres;Password=postgres;Port=5432"
+      Kafka__BootstrapServers: kafka:29092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - testak-network
+    restart: on-failure
+
+  antifraudapi:
+    build:
+      context: ./MSVC.AntiFraud
+      dockerfile: src/Antifraud.Worker/Dockerfile
+    container_name: MSVC.AntiFraud
+    environment:
+      DOTNET_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Host=postgres;Database=transactions_db;Username=postgres;Password=postgres;Port=5432"
+      Kafka__BootstrapServers: kafka:29092
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    networks:
+      - testak-network
+    restart: on-failure
+
+networks:
+  testak-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
