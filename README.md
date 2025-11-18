@@ -127,6 +127,11 @@ flowchart LR
 
 ```bash
 docker-compose up --build -d
+Para que corra sin problemas debe estar ubicado en la raiz del folder que contiene los dos repos (transaction y antifraud), ejemplo:
+ArkanoTest/
+└── MSVC.Transaction/
+└── MSVC.Antifraud/
+--docker-compose
 ```
 
 ### Servicios
